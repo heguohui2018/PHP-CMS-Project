@@ -1,20 +1,21 @@
 <?php
 ob_start();
 
-$mysql_conf = array(
-	'host'    => 'localhost',
-	'db_user' => 'root',
-	'db_pwd'  => 'heguohui2018',
-	'db'      => 'cms',
-);
+$db_host = "localhost";
+$db_user = "root";
+$db_pass = "heguohui2018";
+$db_name = "cms";
 
-$mysqli = @new mysqli($mysql_conf['host'], $mysql_conf['db_user'], $mysql_conf['db_pwd']);
-if ($mysqli->connect_errno) {
-	die("could not connect to the database:\n" . $mysqli->connect_error); //诊断连接错误
+$connection = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
+
+$query = "SET NAMES utf8";
+mysqli_query($connection, $query);
+
+if (!$connection) {
+	die("connection Failed");
 }
 
 
-$select_db = $mysqli->select_db($mysql_conf['db']); //诊断库名错误
-if (!$select_db) {
-	die("could not connect to the db:\n" .  $mysqli->error);
+if (!isset($_SESSION)) {
+	session_start();
 }
