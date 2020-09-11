@@ -1,8 +1,20 @@
 <?php
 ob_start();
-$db_hsot = 'localhsot';
-$db_user = 'root';
-$db_password = 'heguohui2018';
-$db_name = 'cms';
 
-$connection = mysqli_connect($db_hsot, $db_user, $db_password, $db_hsot);
+$mysql_conf = array(
+	'host'    => 'localhost',
+	'db_user' => 'root',
+	'db_pwd'  => 'heguohui2018',
+	'db'      => 'cms',
+);
+
+$mysqli = @new mysqli($mysql_conf['host'], $mysql_conf['db_user'], $mysql_conf['db_pwd']);
+if ($mysqli->connect_errno) {
+	die("could not connect to the database:\n" . $mysqli->connect_error); //诊断连接错误
+}
+
+
+$select_db = $mysqli->select_db($mysql_conf['db']); //诊断库名错误
+if (!$select_db) {
+	die("could not connect to the db:\n" .  $mysqli->error);
+}
